@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32825.248
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrypFolio", "CrypFolio.csproj", "{6C4FD2C7-B555-42F5-A762-0042AEEEB311}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6C4FD2C7-B555-42F5-A762-0042AEEEB311}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C4FD2C7-B555-42F5-A762-0042AEEEB311}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C4FD2C7-B555-42F5-A762-0042AEEEB311}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C4FD2C7-B555-42F5-A762-0042AEEEB311}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {951B8145-1B89-423E-838D-46D40F61E38E}
+	EndGlobalSection
+EndGlobal
