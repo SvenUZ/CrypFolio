@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -31,13 +32,15 @@ namespace CrypFolio
             this.chart1.Titles.Add("BTC");
             chart1.Series.Add("BTC");
 
-            JObject root = Program.gethistorydata();
+            var root = Program.gethistorydata();
+            
             JObject timeseries = (JObject)root["Time Series (Digital Currency Daily)"];
            
             DateTime myDate = DateTime.Now;
             DateTime lastyear = myDate.AddYears(-3);
 
-            Console.WriteLine(lastyear);
+            List<DateTime> datelist = new List<DateTime>();
+            List<Double> pricelist = new List<Double>();
 
             for (int i = 0; i <  timeseries.Count; i++)
             {
@@ -47,16 +50,22 @@ namespace CrypFolio
                 //  Unix time
                 JProperty prob = (JProperty)item.Parent;
                 var time = prob.Name.ToString();
-                    //lastyear.AddDays(+i).ToString("yyyy-MM-dd");
-                Console.WriteLine(time);
+                datelist.Add(DateTime.Parse(time));
+                
 
                 //  Bitcoin price at that time
                 double y = (double)item["4a. close (EUR)"];
-
-                //  Do something with x and y.
-                chart1.Series["BTC"].Points.AddXY(time, y);
+                pricelist.Add(y);
             }
+            datelist.Reverse();
+            pricelist.Reverse();
             
+            for(int i = 0; i < pricelist.Count; i++)
+            {
+                String date = datelist[i].ToString("yyyy-MM-dd");
+                Double price = pricelist[i];
+                chart1.Series["BTC"].Points.AddXY(date, price);
+            }
         }
     }
 }
