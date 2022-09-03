@@ -5,6 +5,12 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Windows.Forms;
+using System.Json;
+using System.Security.Policy;
+using System.Data.SqlClient;
+using System.Runtime.InteropServices;
+using Newtonsoft.Json.Linq;
+using System.IO;
 
 namespace CrypFolio
 {
@@ -26,28 +32,31 @@ namespace CrypFolio
 
         public static string makeAPICall(string func)
         {
-            var URL = new UriBuilder();
-            if(func == "listing")
-            {
-                URL = new UriBuilder("https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest");
-            }
-            if(func == "timelineBTC")
-            {
-
-            }
+            
+            var url = new UriBuilder("https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest");
 
             var queryString = HttpUtility.ParseQueryString(string.Empty);
             queryString["start"] = "1";
             queryString["limit"] = "50";
             queryString["convert"] = "USD";
 
-            URL.Query = queryString.ToString();
+            url.Query = queryString.ToString();
 
             var client = new WebClient();
             client.Headers.Add("X-CMC_PRO_API_KEY", API_KEY);
             client.Headers.Add("Accepts", "application/json");
-            return client.DownloadString(URL.ToString());
+            return client.DownloadString(url.ToString());
+        }
 
+        public static JObject gethistorydata()
+        {
+            using (WebClient wc = new WebClient())
+            {
+                var data = wc.DownloadString("https://www.alphavantage.co/query?function=DIGITAL_CURRENCY_DAILY&symbol=BTC&market=EUR&apikey=QFWHGL257449PNAZ");
+                // File.WriteAllText("history.json", data);
+                JObject o = JObject.Parse(data);
+                return o;
+            }
         }
     }
 }
