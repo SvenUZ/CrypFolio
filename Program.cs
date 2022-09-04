@@ -11,6 +11,7 @@ using System.Data.SqlClient;
 using System.Runtime.InteropServices;
 using Newtonsoft.Json.Linq;
 using System.IO;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace CrypFolio
 {
@@ -48,11 +49,11 @@ namespace CrypFolio
             return client.DownloadString(url.ToString());
         }
 
-        public static JObject gethistorydata()
+        public static JObject gethistorydata(string coin)
         {
             using (WebClient wc = new WebClient())
             {
-                var data = wc.DownloadString("https://www.alphavantage.co/query?function=DIGITAL_CURRENCY_DAILY&symbol=BTC&market=EUR&apikey=QFWHGL257449PNAZ");
+                var data = wc.DownloadString("https://www.alphavantage.co/query?function=DIGITAL_CURRENCY_DAILY&symbol="+coin+"&market=EUR&apikey=QFWHGL257449PNAZ");
                 // File.WriteAllText("history.json", data);
                 JObject o = JObject.Parse(data);
                 return o;
