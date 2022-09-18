@@ -45,9 +45,6 @@ namespace CrypFolio
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
             string coin = comboBox1.SelectedItem.ToString();
 
             // Delete and Add Title
@@ -180,22 +177,6 @@ namespace CrypFolio
                 chart1.Series[coin].Points.AddXY(date, price);
             }
             
-        }
-
-        private void chart1_Click(object sender, EventArgs e)
-        {
-            
-        }
-
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            generateChartNew();
-            
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
         }
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
