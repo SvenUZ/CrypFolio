@@ -53,6 +53,7 @@ namespace CrypFolio
 
             // Delete and Add DataSeries
             chart1.Series.Clear();
+            chart1.ResetAutoValues();
             chart1.Series.Add(coin);
 
             // Delete in every Series Points
@@ -155,6 +156,7 @@ namespace CrypFolio
 
             // Delete and Add DataSeries
             chart1.Series.Clear();
+            chart1.ResetAutoValues();
             foreach (var series in chart1.Series)
             {
                 series.Points.Clear();
