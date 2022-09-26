@@ -27,6 +27,8 @@ namespace CrypFolio
             comboBox1.SelectedItem = "BTC";
             radioButton1.Checked = true;
 
+            chart1.ChartAreas[0].AxisY.IsStartedFromZero = false;
+
         }
 
         public void ToCombo()
@@ -44,6 +46,82 @@ namespace CrypFolio
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            chartGenerateOld();
+            //generateChartNew();
+        }
+
+        // Kraken-API 
+        public void generateChartNew()
+        {
+            // Getting selected coin from combobox 
+            string coin = comboBox1.SelectedItem.ToString();
+
+            Int32 radio = 0;
+
+            // Which RadioButton is Checked
+            if (radioButton1.Checked)
+            {
+                DateTime foo = DateTime.Now.AddDays(-1);
+                Console.WriteLine(foo.ToString());
+                radio = Convert.ToInt32(((DateTimeOffset)foo).ToUnixTimeSeconds());
+                Console.WriteLine(radio.ToString());
+            }
+            if (radioButton2.Checked)
+            {
+                DateTime foo = DateTime.Now.AddDays(-7);
+                Console.WriteLine(foo.ToString());
+                radio = Convert.ToInt32(((DateTimeOffset)foo).ToUnixTimeSeconds());
+                Console.WriteLine(radio.ToString());
+            }
+            if (radioButton3.Checked)
+            {
+                DateTime foo = DateTime.Now.AddDays(-30);
+                Console.WriteLine(foo.ToString());
+                radio = Convert.ToInt32(((DateTimeOffset)foo).ToUnixTimeSeconds());
+                Console.WriteLine(radio.ToString());
+            }
+            if (radioButton4.Checked)
+            {
+                DateTime foo = DateTime.Now.AddDays(-365);
+                Console.WriteLine(foo.ToString());
+                radio = Convert.ToInt32(((DateTimeOffset)foo).ToUnixTimeSeconds());
+                Console.WriteLine(radio.ToString());
+            }
+
+
+            // Delete and Add Title
+            this.chart1.Titles.Clear();
+            this.chart1.Titles.Add(coin + " daily");
+
+            // Delete and Add DataSeries
+            chart1.Series.Clear();
+            chart1.ResetAutoValues();
+            foreach (var series in chart1.Series)
+            {
+                series.Points.Clear();
+            }
+            chart1.Series.Add(coin);
+
+
+            chart1.Series[0].XValueType = ChartValueType.DateTime;
+
+
+            // Get History Data and Write all in JSON (Testing Purpose)
+            var root = KrakenAPI.getJSON(coin, radio);
+            List<string> dateList = new List<string>(KrakenAPI.DataToTime(root));
+            List<double> priceList = new List<double>(KrakenAPI.DataToPrice(root));
+
+            for (int i = 0; i < priceList.Count; i++)
+            {
+                String date = dateList[i];
+                Double price = priceList[i];
+                chart1.Series[coin].Points.AddXY(date, price);
+            }
+            
+        }
+
+        public void chartGenerateOld()
         {
             string coin = comboBox1.SelectedItem.ToString();
 
@@ -106,76 +184,6 @@ namespace CrypFolio
             {
                 String date = datelist[i].ToString("yyyy-MM-dd");
                 Double price = pricelist[i];
-                chart1.Series[coin].Points.AddXY(date, price);
-            }
-        }
-
-        // Kraken-API 
-        public void generateChartNew()
-        {
-            // Getting selected coin from combobox 
-            string coin = comboBox1.SelectedItem.ToString();
-            string coinpair = coin + "EUR";
-
-            Int32 radio = 0;
-
-            // Which RadioButton is Checked
-            if (radioButton1.Checked)
-            {
-                DateTime foo = DateTime.Now.AddDays(-1);
-                Console.WriteLine(foo.ToString());
-                radio = Convert.ToInt32(((DateTimeOffset)foo).ToUnixTimeSeconds());
-                Console.WriteLine(radio.ToString());
-            }
-            if (radioButton2.Checked)
-            {
-                DateTime foo = DateTime.Now.AddDays(-7);
-                Console.WriteLine(foo.ToString());
-                radio = Convert.ToInt32(((DateTimeOffset)foo).ToUnixTimeSeconds());
-                Console.WriteLine(radio.ToString());
-            }
-            if (radioButton3.Checked)
-            {
-                DateTime foo = DateTime.Now.AddDays(-30);
-                Console.WriteLine(foo.ToString());
-                radio = Convert.ToInt32(((DateTimeOffset)foo).ToUnixTimeSeconds());
-                Console.WriteLine(radio.ToString());
-            }
-            if (radioButton4.Checked)
-            {
-                DateTime foo = DateTime.Now.AddDays(-365);
-                Console.WriteLine(foo.ToString());
-                radio = Convert.ToInt32(((DateTimeOffset)foo).ToUnixTimeSeconds());
-                Console.WriteLine(radio.ToString());
-            }
-
-
-            // Delete and Add Title
-            this.chart1.Titles.Clear();
-            this.chart1.Titles.Add(coin + " daily");
-
-            // Delete and Add DataSeries
-            chart1.Series.Clear();
-            chart1.ResetAutoValues();
-            foreach (var series in chart1.Series)
-            {
-                series.Points.Clear();
-            }
-            chart1.Series.Add(coin);
-
-
-            chart1.Series[0].XValueType = ChartValueType.DateTime;
-
-
-            // Get History Data and Write all in JSON (Testing Purpose)
-            var root = KrakenAPI.getJSON(coin, radio);
-            List<string> dateList = new List<string>(KrakenAPI.DataToTime(root));
-            List<double> priceList = new List<double>(KrakenAPI.DataToPrice(root));
-
-            for (int i = 0; i < priceList.Count; i++)
-            {
-                String date = dateList[i];
-                Double price = priceList[i];
                 chart1.Series[coin].Points.AddXY(date, price);
             }
             

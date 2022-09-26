@@ -58,6 +58,7 @@ namespace CrypFolio
                 DateTime date = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(unix);
                 dateList.Add(date.ToString());
             }
+            //dateList.Reverse();
             return dateList;
         }
 
